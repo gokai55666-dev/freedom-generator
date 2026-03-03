@@ -1,11 +1,8 @@
 services:
   - type: web
     name: freedom-bridge
-    runtime: node
-    rootDir: bridge           # ← Explicit root directory
-    dockerfilePath: ./Dockerfile  # ← Relative to rootDir
-    buildCommand: npm install
-    startCommand: node server.js
+    runtime: docker
+    rootDir: bridge
     envVars:
       - key: AI_ENGINE_URL
         value: http://freedom-ai:10001
@@ -15,9 +12,9 @@ services:
 
   - type: web
     name: freedom-ai
-    runtime: python
-    rootDir: ai-engine         # ← Explicit root directory
-    dockerfilePath: ./Dockerfile  # ← Relative to rootDir
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port 10001
+    runtime: docker
+    rootDir: ai-engine
+    envVars:
+      - key: PORT
+        value: 10001
     plan: free
